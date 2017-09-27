@@ -40,6 +40,8 @@ Similarly, using a different set of numbers, another thing can happen - the dist
 
 To show this in concrete terms, consider the Laplacian mechanism $\tilde{f}(\cdot)_{\epsilon,p} = f(D) + Lap*_p (\Delta/\epsilon)$, where $p$ is the precision with which the uniform distribution over $(0,1)$ is sampled.  Let $\Delta = 1$, $f(D) = 0$, and $f(D') = 1$.  Consider the distribution of $\tilde{f}^*(D)_{1/3} = 0 + Lap*(3)$ and $\tilde{f}^*(D')_{1/3} = 1 + Lap*(3)$ around 1.5.  As it turns out, the output of the Laplacian mechanism results in some different values for $\tilde{f}^*(D)$ and $\tilde{f}^*(D')$.  For example, an output of $\tilde{f}^*(D)$ includes the value $1.5$ while $\tilde{f}^*(D')$ does not.  Similarly, $\tilde{f}^*(D')$ includes the value $1.5 + 2 \cdot 2^{-52}$, while $\tilde{f}^*(D)$ does not.  This means if the output of the Laplacian mechanism is $1.5 + 2 \cdot 2^{-52}$, the input database was $D'$ etc.  Thus, differential privacy is violated.
 
+The paper \textit{Fast and Correctly Rounded Logarithms in Double Precision} by Dinechin, Lauder, and Mueller presents an algorithm to round floating point numbers precisely, to preserve differential privacy. As seen above, there are issues distributing noise with floating point values as they are not precise and can expose data. This new algorithm can provide accuracy up to $2^{-150}$ if needed. The main structure of this algorithm is 2 steps. The first step provides accuracy up to $2^{-60}$. The first step executes some operation on the float and then performs a rounding test. If the rounding test passes, this means there is no error and the algorithm can terminate with accuracy $2^{-60}$. There is a small chance, though, that there are inconsistencies in the values. In this case, the second step happens. The second step uses predefined libraries based on processor type to provide more accuracy. The output of this step will then be converted to a double precision number and is guaranteed to have accuracy of at least $2^{-150}$. By determining a way to integrate this algorithm into the snapping mechanism, we can preserve differential privacy with floating point numbers.  
+
 \section{Objectives} 
 
 Mironov proposed something called the \textit{snapping mechanism} to yield a differentially private mechanism by solving the issue explained above.  It works by tossing out the lower bits of the Laplacian noise result \textit{after} adding the noise to the query.  Previously, our differentially private mechanism was defined as $\tilde{f}(D) = f(D) + Lap*_p (\Delta/\epsilon)$.  Using Mironov's snapping mechanism, we now define it to be
@@ -61,14 +63,25 @@ The primary goal of this project is to create a software tool which generates La
 \section{Deliverables}
 
 \begin{enumerate}
-    \item \textbf{DP Laplacian Noise Generator using Rust Language}: 
-    \item \textbf{Integrated Software}: %talk about how this may be modified to fit larger frameworks
-    \item \textbf{Software Documentation}:
-    \item \textbf{Software Bindings for C/Python (optional)}: 
-    \item \textbf{GUI for Software Tool (optional)}: 
+    \item \textbf{DP Laplacian Noise Generator using Rust Language}: The goal here is to create a program that can use floating point numbers and generate Laplacian Noise in a way that preserves differential privacy. Rust will be used since it is a secure language that provides all the necessary tools we may need to complete the algorithm.
+        
+    \item \textbf{Integrated Software}: Once we have the basic algorithm completed, the next step is to determine what pre-existing frameworks we could potentially integrate the tool with. The purpose of this would be to ensure differential privacy with large database systems. After researching what possibilities exist, we would then modify our code so that the tool could work hand in hand with the framework.
+    \item \textbf{Software Documentation}: Next we need to provide adequate documentation for our code. The goal would be for any user to be able to read and understand the code so they could use it with a database they may have. The documentation would include not only in code comments, but also a guide to explain how it works.
+    \item \textbf{Software Bindings for C/Python (optional)}: Many projects related to this work are in C/Python. To make our code more accessible and flexible, we could add bindings so that it will work no matter which language it is to be used with. 
+    \item \textbf{GUI for Software Tool (optional)}: If time allows, we could also create a GUI to make our tool more user friendly. This way, when users have a database, they would not need many software skills/terminal knowledge. The GUI would guide them through the process of adding noise to their database.
 \end{enumerate}
 
 \section{Project Timeline}
+\begin{enumerate}
+    \item \textbf{DP Laplacian Noise Generator using Rust Language}: October 16th
+    \item \textbf{Integrated Software}:November 17th
+    \item \textbf{Software Documentation}:November 30th
+    \item \textbf{Presentation}: November 30th
+    \item \textbf{Software Bindings for C/Python (optional)}: If time allows
+     \item \textbf{GUI for Software Tool (optional)}: If time allows
+\end{enumerate}
+    
+    
 
 
 \bibliography{sample} % this loads the bibliography
