@@ -6,20 +6,23 @@
 % where everything between { and , is the name you'd have to put in your \cite{}
 % command when referencing it in your document. This is cumbersome, so I 
 % like to rename bibliographic entries with author last initials, as I've done below.
-@inproceedings{MT,
- author = {McSherry, Frank and Talwar, Kunal},
- title = {Mechanism Design via Differential Privacy},
- booktitle = {Proceedings of the 48th Annual IEEE Symposium on Foundations of Computer Science},
- series = {FOCS '07},
- year = {2007},
- isbn = {0-7695-3010-9},
- pages = {94--103},
- numpages = {10},
- url = {http://dx.doi.org/10.1109/FOCS.2007.41},
- doi = {10.1109/FOCS.2007.41},
- acmid = {1334185},
- publisher = {IEEE Computer Society},
- address = {Washington, DC, USA},
+
+@inproceedings{M,
+ author = {Mironov, Ilya},
+ title = {On Significance of the Least Significant Bits for Differential Privacy},
+ booktitle = {Proceedings of the 2012 ACM Conference on Computer and Communications Security},
+ series = {CCS '12},
+ year = {2012},
+ isbn = {978-1-4503-1651-4},
+ location = {Raleigh, North Carolina, USA},
+ pages = {650--661},
+ numpages = {12},
+ url = {http://doi.acm.org/10.1145/2382196.2382264},
+ doi = {10.1145/2382196.2382264},
+ acmid = {2382264},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {differential privacy, floating point arithmetic},
 } 
 
 @article{BLR,
@@ -36,20 +39,15 @@
   bibsource = {dblp computer science bibliography, http://dblp.org}
 }
                  
-% this is the first appearance of the definition of differential privacy
-@inproceedings{DMNS,
- author = {Dwork, Cynthia and McSherry, Frank and Nissim, Kobbi and Smith, Adam},
- title = {Calibrating Noise to Sensitivity in Private Data Analysis},
- booktitle = {Proceedings of the Third Conference on Theory of Cryptography},
- series = {TCC'06},
- year = {2006},
- isbn = {3-540-32731-2, 978-3-540-32731-8},
- location = {New York, NY},
- pages = {265--284},
- numpages = {20},
- url = {http://dx.doi.org/10.1007/11681878_14},
- doi = {10.1007/11681878_14},
- acmid = {2180305},
- publisher = {Springer-Verlag},
- address = {Berlin, Heidelberg},
-} 
+@article{DLM,
+	author = {{de Dinechin, Florent} and {Lauter, Christoph} and {Muller, Jean-Michel}},
+	title = {Fast and correctly rounded logarithms  in double-precision},
+	DOI= "10.1051/ita:2007003",
+	url= "https://doi.org/10.1051/ita:2007003",
+	journal = {RAIRO-Theor. Inf. Appl.},
+	year = 2007,
+	volume = 41,
+	number = 1,
+	pages = "85-102",
+	month = "",
+}

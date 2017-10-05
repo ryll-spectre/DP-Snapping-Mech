@@ -40,7 +40,7 @@ Similarly, using a different set of numbers, another thing can happen - the dist
 
 To show this in concrete terms, consider the Laplacian mechanism $\tilde{f}(\cdot)_{\epsilon,p} = f(D) + Lap*_p (\Delta/\epsilon)$, where $p$ is the precision with which the uniform distribution over $(0,1)$ is sampled.  Let $\Delta = 1$, $f(D) = 0$, and $f(D') = 1$.  Consider the distribution of $\tilde{f}^*(D)_{1/3} = 0 + Lap*(3)$ and $\tilde{f}^*(D')_{1/3} = 1 + Lap*(3)$ around 1.5.  As it turns out, the output of the Laplacian mechanism results in some different values for $\tilde{f}^*(D)$ and $\tilde{f}^*(D')$.  For example, an output of $\tilde{f}^*(D)$ includes the value $1.5$ while $\tilde{f}^*(D')$ does not.  Similarly, $\tilde{f}^*(D')$ includes the value $1.5 + 2 \cdot 2^{-52}$, while $\tilde{f}^*(D)$ does not.  This means if the output of the Laplacian mechanism is $1.5 + 2 \cdot 2^{-52}$, the input database was $D'$ etc.  Thus, differential privacy is violated.
 
-The paper \textit{Fast and Correctly Rounded Logarithms in Double Precision} by Dinechin, Lauder, and Mueller presents an algorithm to round floating point numbers precisely, to preserve differential privacy. As seen above, there are issues distributing noise with floating point values as they are not precise and can expose data. This new algorithm can provide accuracy up to $2^{-150}$ if needed. The main structure of this algorithm is 2 steps. The first step provides accuracy up to $2^{-60}$. The first step executes some operation on the float and then performs a rounding test. If the rounding test passes, this means there is no error and the algorithm can terminate with accuracy $2^{-60}$. There is a small chance, though, that there are inconsistencies in the values. In this case, the second step happens. The second step uses predefined libraries based on processor type to provide more accuracy. The output of this step will then be converted to a double precision number and is guaranteed to have accuracy of at least $2^{-150}$. By determining a way to integrate this algorithm into the snapping mechanism, we can preserve differential privacy with floating point numbers.  
+The paper \textit{Fast and Correctly Rounded Logarithms in Double Precision} by Dinechin, Lauder, and Mueller presents an algorithm to round floating point numbers precisely, to preserve differential privacy. As seen above, there are issues distributing noise with floating point values as they are not precise and can expose data. This new algorithm can provide accuracy up to $2^{-150}$ if needed. The main structure of this algorithm is comprised of 2 steps. The first step provides accuracy up to $2^{-60}$. It executes some operation on the float and then performs a rounding test. If the rounding test passes, this means there is no error and the algorithm can terminate with accuracy $2^{-60}$. There is a small chance, however, that there are inconsistencies in the values. In this case, the second step is implemented. It uses predefined libraries based on processor type to provide more accuracy. The output of this step will then be converted to a double precision number and is guaranteed to have accuracy of at least $2^{-150}$. By determining a way to integrate this algorithm into the snapping mechanism, we can preserve differential privacy with floating point numbers.  
 
 \section{Objectives} 
 
@@ -81,8 +81,9 @@ The primary goal of this project is to create a software tool which generates La
      \item \textbf{GUI for Software Tool (optional)}: If time allows
 \end{enumerate}
     
-    
-
 
 \bibliography{sample} % this loads the bibliography
+\cite{M}
+\cite{DLM}
+
 \end{document}
