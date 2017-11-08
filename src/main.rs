@@ -10,34 +10,13 @@ fn main(){
 	this value is rounded before having the clamp function called again
 	*/
 
-	//RUN TESTS
-	println!("RUNNING TESTS:");
-
-	//alpha tests
-	let num = alpha(6.0_f64);
-	let num2 = alpha(0.4_f64);
-	println!("{}", num); //EXPECTED: 
-	println!("{}", num2); //EXPECTED: 
-
-	//round tests
-	let num3 = round(4.0_f64,6.0_f64);
-	let num4 = round(0.1_f64, 6.75_f64);
-	println!("{}", num3); //EXPECTED: 
-	println!("{}", num4); //EXPECTED:
-
-	//clamp test
-	let num5 = clamp(5.0_f64, 6.0_f64); 
-	println!("{}", num5); //EXPECTED: 
-
-	// uniform dist test
-	let uniform_dist = uniformDist();
-    println!("{}", uniform_dist);
-
     println!("\n");
     println!("PROGRAM START:");
+
     // For each required parameter:
     // 1) Request user input and read into a string buffer
     // 2) Parse the string buffer into a 64b floating point value
+
     let mut f_D = String::new();
     println!("Enter f(D) for database D: ");
     io::stdin().read_line(&mut f_D)
@@ -105,6 +84,7 @@ fn uniformDist() -> f64
     let range = Range::new(0.0,1.0);
     let sample = range.ind_sample(&mut rng);
 
+    // TODO: may need to account for rounding errors in logarithm
     return f64::log10(sample)
 }
 
@@ -118,21 +98,27 @@ fn alpha(lam: f64) -> f64
 {
 	//calculates the smallest power of 2 >= lambda
 	let mut n = 1_f64;
+	let mut m = 0_f64;
 	if lam < 1_f64 
 	{
 		while lam < n 
 		{
 			n = n / 2_f64;
+			m = m+1_f64;
 		}
-		return n*2_f64
+		return m
 	} 
-	else 
+	else if lam > 1_f64
 	{
 		while n < lam 
 		{
 			n = n*2_f64;
+			m=m+1_f64;
 		}
-		return n
+		return m
+	} else 
+	{
+		return 0_f64;
 	}
 }
 
@@ -180,20 +166,25 @@ fn round(alpha: f64, inner_clamp: f64) -> f64
 fn snapping_mechanism(fD: f64, lambda: f64, B: f64) -> f64
 {
 	// 50% chance S is -1 or +1
-	// TODO: May need to change this S calculator
 	let mut S = 0.0;
 	let between = Range::new(0u8, 1u8); //Two possible choices - 0 or 1
 	let mut rng = rand::thread_rng();
 	let num = between.ind_sample(&mut rng);
 	if num == 1 {S = 1.0};
 	if num == 0 {S = -1.0};
+	println!("The value of S is:");
+	println!("{}", S);
 
 	let clampfD = clamp(fD, B); //clamp_B (f(D))
 	let uni_dist_num = uniformDist(); // LN(U*)
+	println!("The uniform dist num is: ");
+	println!("{}", uni_dist_num);
 	let inner_result = clampfD + S * lambda * uni_dist_num;
 
 	//calculate outer clamp by passing in inner result rounded to alpha
 	let alpha = alpha(lambda);
+	println!("alpha is: ");
+	println!("{}", alpha);
 	let round = round(inner_result, alpha);
 
 	return clamp(round, B)
