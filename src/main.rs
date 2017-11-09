@@ -88,13 +88,13 @@ fn uniformDist() -> f64
     return f64::log10(sample)
 }
 
-/// Returns a floating point number representing alpha, the smallest power
+/// Returns a floating point number representing Lambda, the smallest power
 /// of 2 greater than or equal to lambda
 ///
 ///# Arguments
 ///
 ///* 'lam' - a floating point number that is the ratio of the sensitivity to privacy
-fn alpha(lam: f64) -> f64
+fn lambda_sub(lam: f64) -> f64
 {
 	//calculates the smallest power of 2 >= lambda
 	let mut n = 1_f64;
@@ -116,24 +116,25 @@ fn alpha(lam: f64) -> f64
 			m=m+1_f64;
 		}
 		return m
-	} else 
+	} 
+	else 
 	{
 		return 0_f64;
 	}
 }
 
 /// Returns a floating point number which is the closest multiple of
-/// Alpha in a uniform distribution
+/// Lambda in a uniform distribution
 ///
 ///# Arguments
 ///
-///* 'alpha' - the value returned from the alpha function
+///* 'l_sub' - the value returned from the lambda_sub function
 ///* 'inner_clamp' - the result of the computations on the first clamp output
-fn round(alpha: f64, inner_clamp: f64) -> f64
+fn round(l_sub: f64, inner_clamp: f64) -> f64
 {
 	//rounds the inner clamp function to closest multiple of
-	//alpha with ties resolved towards pos inf
-	let mut ans = alpha;
+	//l_sub with ties resolved towards pos inf
+	let mut ans = l_sub;
 	if ans >= inner_clamp 
 	{
 		return ans;
@@ -142,15 +143,15 @@ fn round(alpha: f64, inner_clamp: f64) -> f64
 	{
 		while inner_clamp > ans 
 		{
-			ans += alpha;
+			ans += l_sub;
 		}
-		if ans - inner_clamp <= inner_clamp - (ans - alpha)
+		if ans - inner_clamp <= inner_clamp - (ans - l_sub)
 		{
 			return ans;
 		} 
 		else 
 		{
-			return ans - alpha;
+			return ans - l_sub;
 		}
 	}
 }
@@ -182,10 +183,10 @@ fn snapping_mechanism(fD: f64, lambda: f64, B: f64) -> f64
 	let inner_result = clampfD + S * lambda * uni_dist_num;
 
 	//calculate outer clamp by passing in inner result rounded to alpha
-	let alpha = alpha(lambda);
-	println!("alpha is: ");
-	println!("{}", alpha);
-	let round = round(inner_result, alpha);
+	let lambda_sub = lambda_sub(lambda);
+	println!("Lambda is: ");
+	println!("{}", lambda_sub);
+	let round = round(inner_result, lambda_sub);
 
 	return clamp(round, B)
 }
