@@ -23,7 +23,6 @@ fn main(){
     	.ok()
     	.expect("Couldn't read line!");
     let f_D_float = f_D.trim().parse::<f64>().unwrap();
-    println!("{}", f_D_float);
 
     let mut delta = String::new();
     println!("Enter sensitivity (Δ): ");
@@ -104,7 +103,7 @@ fn lambda_sub(lam: f64) -> f64
 		while lam < n 
 		{
 			n = n / 2_f64;
-			m = m+1_f64;
+			m = m-1_f64;
 		}
 		return m
 	} 
