@@ -118,7 +118,7 @@ fn lambda_sub(lam: f64) -> f64
 		while lam < n 
 		{
 			n = n / 2_f64;
-			m = m+1_f64;
+			m = m-1_f64;
 		}
 		return m
 	} 
