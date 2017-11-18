@@ -1,8 +1,15 @@
 extern crate rand;
+extern crate rug;
+extern crate dataplotlib;
 
+use rand::{random, Open01};
 use rand::distributions::{IndependentSample, Range};
 use std::f64;
 use std::io;
+use std::iter::repeat;
+use dataplotlib::util::{zip2};
+use dataplotlib::plotbuilder::PlotBuilder2D;
+use dataplotlib::plotter::Plotter;
 
 fn main(){
 	/*takes outputs from clamp funtion on f(D), then computes the value of 
@@ -13,17 +20,12 @@ fn main(){
     println!("\n");
     println!("PROGRAM START:");
 
-    // For each required parameter:
-    // 1) Request user input and read into a string buffer
-    // 2) Parse the string buffer into a 64b floating point value
-
     let mut f_D = String::new();
     println!("Enter f(D) for database D: ");
     io::stdin().read_line(&mut f_D)
     	.ok()
     	.expect("Couldn't read line!");
     let f_D_float = f_D.trim().parse::<f64>().unwrap();
-    println!("{}", f_D_float);
 
     let mut delta = String::new();
     println!("Enter sensitivity (Δ): ");
@@ -50,6 +52,20 @@ fn main(){
     let DP_noisy_output = snapping_mechanism(f_D_float, lambda, B_float); //final result
     println!("Result of adding noise to query result f(D): ");
     println!("{}", DP_noisy_output);
+
+    // Run the noisy output to generate a plot of distribution of outputs
+    // Will generate a different output each time because of sample from uniform dist
+    let mut outputVals: Vec<f64> = Vec::new();
+    let mut iterations: Vec<f64> = Vec::new();
+    let mut iter = 0.0;
+    for x in 0..500
+    {
+    	outputVals.push(snapping_mechanism(f_D_float, lambda, B_float));
+    	iterations.push(iter);
+    	iter = iter + 1.0;
+    }
+    // Pass results to plotting function
+    plotOutputDist(&outputVals, &iterations);
 }
 
 /// Returns a floating point number related to input x
@@ -80,12 +96,10 @@ fn clamp(x: f64 , b: f64) -> f64{
 /// from the uniform distribution over (0,1)
 fn uniformDist() -> f64
 {
-	let mut rng = rand::thread_rng(); 
-    let range = Range::new(0.0,1.0);
-    let sample = range.ind_sample(&mut rng);
+	// Generates floating point numbers uniformly in interval (0,1)
+    let Open01(sample) = random::<Open01<f64>>();
 
-    // TODO: may need to account for rounding errors in logarithm
-    return f64::log10(sample)
+    return f64::log10(sample);
 }
 
 /// Returns a floating point number representing Lambda, the smallest power
@@ -173,20 +187,31 @@ fn snapping_mechanism(fD: f64, lambda: f64, B: f64) -> f64
 	let num = between.ind_sample(&mut rng);
 	if num == 1 {S = 1.0};
 	if num == 0 {S = -1.0};
-	println!("The value of S is:");
-	println!("{}", S);
+	//println!("The value of S is:");
+	//println!("{}", S);
 
 	let clampfD = clamp(fD, B); //clamp_B (f(D))
 	let uni_dist_num = uniformDist(); // LN(U*)
-	println!("The uniform dist num is: ");
-	println!("{}", uni_dist_num);
+	//println!("The uniform dist num is: ");
+	//println!("{}", uni_dist_num);
 	let inner_result = clampfD + S * lambda * uni_dist_num;
 
 	//calculate outer clamp by passing in inner result rounded to alpha
 	let lambda_sub = lambda_sub(lambda);
-	println!("Lambda is: ");
-	println!("{}", lambda_sub);
+	//println!("Lambda is: ");
+	//println!("{}", lambda_sub);
 	let round = round(inner_result, lambda_sub);
 
 	return clamp(round, B)
+}
+
+fn plotOutputDist(outputVals: & Vec<f64>, iterations: & Vec<f64>)
+{
+	let plotVals = zip2(iterations, outputVals);
+	let mut pb = PlotBuilder2D::new();
+	pb.add_color_xy(plotVals, [1.0, 0.0, 0.0, 1.0]);
+
+	let mut plt = Plotter::new();
+    plt.plot2d(pb);
+    plt.join();
 }
