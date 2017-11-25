@@ -1,0 +1,13 @@
+[package]
+name = "DP"
+version = "0.1.0"
+authors = ["osboxes"]
+
+[dependencies]
+rand = "0.3"
+rug = "0.8.0"
+dataplotlib = "0.1.3"
+
+[lib]
+name = "snapping_mech"
+crate-type = ["dylib"]
