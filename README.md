@@ -1,4 +1,4 @@
-# Differential Privacy: The Snapping Mechanism
+# The Snapping Mechanism: A Differentially Private and Secure Noise Generator
 
 ## Overview
 
