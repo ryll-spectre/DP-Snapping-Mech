@@ -52,12 +52,12 @@ def subsample_and_aggregate(x, eps, delta):
 
 	threshold = 2 * q * m
 	for f in range(0, len(frequencies)): # abort if element is picked more than 2qm times
-		if float(f) > threshold:
+		if float(frequencies[f]) > threshold:
 			raise ValueError('An element was picked too many times.  Aborting.')
 
 	sample_variances = [] # list of integers
 	for i in range(0, len(samples)):
-		sample_variances = sample_var(samples[i])
+		sample_variances.append(sample_var(samples[i]))
 
 	var_frequencies = {} # {integer, integer} dictionary
 	for num in range(0, len(sample_variances)):
@@ -108,7 +108,8 @@ def sample(frequencies, x, q):
 	return res
 
 """
-Returns a sample from the guassian distribution.
+Returns a sample from the gaussian distribution.  Used for sample
+database population.
 
 Args:
     mu: mean
@@ -142,7 +143,7 @@ def sample_var(sample):
 
 ############################################################### MAIN
 
-### USER DEFINED DATA
+# USER DEFINED DATA #
 mu = 5.0    #mean
 var = 3.5   #variance
 n = 3000    #number of samples
@@ -158,10 +159,10 @@ private_var = 0.0
 try:
 	private_var = subsample_and_aggregate(db, eps, delta)
 	if private_var == true_var:
-		print('Private subsampling estimated the correct variance of: ' + private_var)
+		print('Private subsampling estimated the correct variance of: ' + str(private_var))
 	else:
-		print('Private subsampling estimated a variance of: ' + private_var)
-		print('Actual variance is: ' + true_var)
+		print('Private subsampling estimated a variance of: ' + str(private_var))
+		print('Actual variance is: ' + str(true_var))
 except ValueError as error:
 	raise
 
