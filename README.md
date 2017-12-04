@@ -11,3 +11,8 @@ Unfortunately, as thoroughly outlined by Mironov in his paper, [*On significance
 To overcome this vulnerability, Mironov developed the *Snapping Mechanism*, which can serve as a replacement for the Laplace Mechanism where noise is added to some query **f(D)** on some database **D**.  A mathematical overview of the snapping mechanism is shown below.
 
 ![alt text](https://github.com/jjgccg/jjgccg.github.io/blob/master/images/sm.PNG)
+
+The snapping mechanism, and thus our implementation of the snapping mechanism, has been proven to satisfy (1/λ + )
+
+## Implementation
+<img src="http://latex.codecogs.com/svg.latex?(1/ \lambda + 2^{-49} B / \lambda)" border="0"/>
