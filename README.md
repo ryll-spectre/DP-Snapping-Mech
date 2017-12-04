@@ -15,4 +15,4 @@ To overcome this vulnerability, Mironov developed the *Snapping Mechanism*, whic
 The snapping mechanism, and thus our implementation of the snapping mechanism, has been proven to satisfy (1/λ + )
 
 ## Implementation
-<img src="http://latex.codecogs.com/gif.latex? 1/ \lambda" border="0"/>
+<img src="http://latex.codecogs.com/gif.latex? 1 / &lambda; + " border="0"/>
