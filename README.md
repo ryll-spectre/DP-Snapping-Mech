@@ -70,6 +70,6 @@ Using this method of a Python to Rust function call (from which we express our g
 
 ### Project Authors
 
-Joseph George | University of Richmond | joseph.george@richmond.edu
+Joseph George | joseph.george@richmond.edu
 
-Marissa Sisco | University of Richmond | marissa.sisco@richmond.edu
+Marissa Sisco | marissa.sisco@richmond.edu
