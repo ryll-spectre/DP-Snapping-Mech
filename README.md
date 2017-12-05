@@ -2,7 +2,7 @@
 
 ## Background
 
-Differential Privacy is a property of algorithms which aim to provide reasonable accuracy on queries from databases while preserving the privacy of the users in these databases from various attacks.  A wealth of information on this important field can be found [here](https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf), and the formal definiton of Differential Privacy taken from Dwork and Roth can be found below.
+Differential Privacy is a property of algorithms which aims to provide reasonable accuracy on queries from databases while preserving the privacy of the users in these databases from various attacks.  A wealth of information on this important field can be found [here](https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf), and the formal definiton of Differential Privacy taken from Dwork and Roth can be found below.
 
 ![alt text](https://github.com/jjgccg/jjgccg.github.io/blob/master/images/diff_priv.PNG)
 
@@ -33,4 +33,37 @@ In both cases, the snapping mechanism function returns a 64-bit floating point n
 
 ## Running the Rust Program
 
-## Python FFI Call to snapping_mechanism
+Our program was developed and run on a Linux environment, with the latest versions of Rust and Cargo installed.  Since the snapping mechanism functions are declared as ```pub```, they can be called from another Rust file which may require the use of secure and differentially private noise.
+
+Download the repository and navigate to the source code folder and ```cargo run```.
+
+```main.rs``` is currently set up as a demo so the user can modify the parameters for the snapping mechanism call, and then see the result printed out from calling the function.  Additionally, a function which stores the result in a text file of calling the snapping mechanism with fixed parameters **n** times is currently called inside of main for the purpose of plotting the distribution of output values.  Of course, this can be removed if need be.
+
+## Python FFI
+
+Not everyone who develops a differentially private algorithm may do so in Rust.  Languages such as Python are more widely used and popular.  Rust was used to implement the snapping mechanism simply because of its precision, security, and performance.
+
+Keeping this in mind, we have developed an FFI call to our Rust snapping mechanism implementation in a Python program to model a practical use case.  The Python program is an implementation of the *Subsample and Aggregate* algorithm, which can be found in section 7.1 of [The Algorithmic Foundations of Differential Privacy](https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf).
+
+Inside of the ```python_rust_ffi``` directory, you can find the subsample and aggregate algorithm, which creates a foreign function call on the Rust program in the following way, using ```FFI``` from ```cffi```
+
+```python
+ffi = FFI()
+
+#C function signature matching Rust "snapping_mech"
+ffi.cdef( """
+    double snapping_mechanism(double, double, double);
+""")
+
+C = ffi.dlopen("/home/osboxes/Desktop/DP/target/debug/libsnapping_mech.so")
+```
+
+This code creates a file called ```libsnapping_mech.so``` inside of your debug folder in your Rust code directory which we originally created through using the ```cargo run``` command.  Note that if you are using windows, this file should instead be ```libsnapping_mech.dll```, and also note the user of this python file must change the path in ```ffi.dlopen``` to match their own machine directory structure.
+
+Once this FFI object is created, it is later called in place of Laplace noise as such
+
+```python
+noisy_stability = C.snapping_mechanism(d, delta/eps, 1000.0) # FFI call to rust snapping_mechanism
+```
+
+Using this method of a Python to Rust function call (from which we express our gratitude to [this](https://bheisler.github.io/post/calling-rust-in-python/) tutorial), a programmer can create an algorithm in Python which requires the use of Laplace noise and instead call the snapping mechanism implemented in Rust.
