@@ -67,3 +67,9 @@ noisy_stability = C.snapping_mechanism(d, delta/eps, 1000.0) # FFI call to rust 
 ```
 
 Using this method of a Python to Rust function call (from which we express our gratitude to [this](https://bheisler.github.io/post/calling-rust-in-python/) tutorial), a programmer can create an algorithm in Python which requires the use of Laplace noise and instead call the snapping mechanism implemented in Rust.
+
+### Project Authors
+
+Joseph George | University of Richmond | joseph.george@richmond.edu
+
+Marissa Sisco | University of Richmond | marissa.sisco@richmond.edu
