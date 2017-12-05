@@ -16,4 +16,21 @@ The snapping mechanism, and thus our implementation of the snapping mechanism, h
 
 ## Implementation
 
+We've modeled the snapping mechanism as accurately as possible through the creation of a Rust program which can be called as a function.  The uniform distribution **U** over <img src="http://latex.codecogs.com/svg.latex?\mathrm{D}\cap(0,1)" border="0"/> was implemented by randomly sampling a number from the open interval (0.0,1.0), which contains all possible 64-bit floating point values.
 
+The snapping mechanism function is implemented in two versions:
+
+```rust
+fn snapping_mechanism(fD: f64, lambda: f64, B: f64) -> f64
+```
+```rust
+fn snapping_mechanism_2(fD: f64, lambda: f64) -> f64
+```
+
+In the first version, the user can specify their own value of **B** in addition to their privacy parameter, **λ**.  In the second version, **B** is fixed to be <img src="http://latex.codecogs.com/svg.latex?\lambda\cdot2^{45}" border="0"/>, allowing for a large range of values to be output.
+
+In both cases, the snapping mechanism function returns a 64-bit floating point number which is the result of adding noise to some query **f(D)** in a secure and differentially private way.
+
+## Running the Rust Program
+
+## Python FFI Call to snapping_mechanism
