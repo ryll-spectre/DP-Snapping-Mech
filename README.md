@@ -12,7 +12,7 @@ To overcome this vulnerability, Mironov developed the *Snapping Mechanism*, whic
 
 ![alt text](https://github.com/jjgccg/jjgccg.github.io/blob/master/images/sm.PNG)
 
-The snapping mechanism, and thus our implementation of the snapping mechanism, has been proven to satisfy <img src="http://latex.codecogs.com/svg.latex?1/\lambda+2^{-49}\mathrm{B}/\lambda" border="0"/> - *differential privacy* when <img src="http://latex.codecogs.com/svg.latex?\lambda<\mathrm{B}<2^{46}\lambda" border="0"/>.
+The snapping mechanism, and thus our implementation of the snapping mechanism, has been proven to satisfy <img src="http://latex.codecogs.com/svg.latex?1/\lambda+2^{-49}\mathrm{B}/\lambda" border="0"/> - *differential privacy* when <img src="http://latex.codecogs.com/svg.latex?\lambda<\mathrm{B}<2^{46}\lambda" border="0"/>, where <img src="http://latex.codecogs.com/svg.latex?\lambda=\Delta/\epsilon}" border="0"/>
 
 ## Implementation
 
