@@ -72,4 +72,4 @@ Using this method of a Python to Rust function call (from which we express our g
 
 Joseph George | jge9@protonmail.ch
 
-Marissa Sisco | marissa.sisco@richmond.edu
+Marissa Sisco | marissasisco97@gmail.com
